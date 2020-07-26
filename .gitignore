@@ -1,5 +1,6 @@
 # Ignore bin folder and drive binary
 _release/bin
+_build*/
 
 # vim files
 .*.sw[a-z]
