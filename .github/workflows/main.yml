@@ -49,6 +49,8 @@ jobs:
             echo "-> Building project for: $target"
             GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -o $output
             #zip -j $output.zip $output > /dev/null
+            cd build
+            ls -al
           done
       - name: Release
         if: env.RELEASE_TAG != ''
