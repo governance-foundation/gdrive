@@ -6,6 +6,7 @@ import (
 	"golang.org/x/oauth2/google"
 	"net/http"
 	"time"
+	"os"
 )
 
 type authCodeFn func(string) func() string
@@ -65,7 +66,9 @@ func NewAccessTokenClient(clientId, clientSecret, accessToken string) *http.Clie
 	)
 }
 
-func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string) (*http.Client, error) {
+func NewServiceAccountClient(serviceAccountFile, jsonLocationType string) (*http.Client, error) {
+	content := ""
+
 	if (jsonLocationType != "env") {
 		content, exists, err := ReadFile(serviceAccountFile)
 		if(!exists) {
@@ -76,7 +79,7 @@ func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string)
 			return nil, err
 		}
 	} else {
-		content = os.Getenv(serviceAccountFile)
+		content := os.Getenv(serviceAccountFile)
 	}
 
 	conf, err := google.JWTConfigFromJSON(content, "https://www.googleapis.com/auth/drive")
