@@ -68,7 +68,7 @@ func NewAccessTokenClient(clientId, clientSecret, accessToken string) *http.Clie
 }
 
 func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string) (*http.Client, error) {
-	content := ""
+	var content []byte
 
 	if jsonLocationType != "env" {
 		content, exists, err := ReadFile(serviceAccountFile)
@@ -80,7 +80,7 @@ func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string)
 			return nil, err
 		}
 	} else {
-		content := os.Getenv(serviceAccountFile)
+		content := []byte(os.Getenv(serviceAccountFile))
 	}
 
 	conf, err := google.JWTConfigFromJSON(content, "https://www.googleapis.com/auth/drive")
