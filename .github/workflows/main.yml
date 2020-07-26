@@ -50,8 +50,8 @@ jobs:
             GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -o $output
             #zip -j $output.zip $output > /dev/null
           done
-          cd build
-          ls -al
+          export RELEASE_FILES=`ls build`
+          echo ::set-env name=RELEASE_FILES::"${RELEASE_FILES}"
       - name: Release
         if: env.RELEASE_TAG != ''
         uses: meeDamian/github-release@2.0
@@ -61,6 +61,6 @@ jobs:
           name: ${{ env.RELEASE_TAG }}
           body: ${{ env.RELEASE_NOTES }}
           gzip: false
-          files: build/
+          files: ${{ env.RELEASE_FILES }}
           allow_override: true
   
