@@ -25,8 +25,16 @@ jobs:
           go-version: ${{ matrix.go }}
       - name: Set enviroment for github-release
         run: |
-          echo ::set-env name=RELEASE_TAG::"${GITHUB_REF/refs\/tags\//}"
-          echo ::set-env name=RELEASE_NAME::"${GITHUB_REF/refs\/tags\//}"
+
+          if [[ $GITHUB_REF == *tags* ]]; then
+            export TAG_NAME="${GITHUB_REF/refs\/tags\//}"
+          else 
+            export TAG_NAME=""
+          fi
+          
+          echo ::set-env name=RELEASE_TAG::"${TAG_NAME}"
+          echo ::set-env name=RELEASE_NAME::"${TAG_NAME}"
+
           export RELEASE_NOTES="$(git log $(git describe --tags --abbrev=0 --always)..HEAD --pretty=format:"%h - %s (%an)<br>")"
           echo ::set-env name=RELEASE_NOTES::"${RELEASE_NOTES}"
       - name: Build
@@ -40,13 +48,17 @@ jobs:
 
             echo "-> Building project for: $target"
             GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -o $output
+            #zip -j $output.zip $output > /dev/null
           done
-      - uses: meeDamian/github-release@2.0
+      - name: Release
+        if: env.TAG_NAME != ''
+        uses: meeDamian/github-release@2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.RELEASE_TAG }}
           name: ${{ env.RELEASE_TAG }}
           body: ${{ env.RELEASE_NOTES }}
+          gzip: false
           files: build/
           allow_override: true
   
