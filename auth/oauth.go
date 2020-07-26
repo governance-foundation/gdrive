@@ -71,7 +71,7 @@ func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string)
 	var jsonBytes []byte
 
 	if jsonLocationType != "env" {
-		jsonBytes, exists, err = ReadFile(serviceAccountFile)
+		content, exists, err := ReadFile(serviceAccountFile)
 		if !exists {
 			return nil, fmt.Errorf("Service account filename %q not found", serviceAccountFile)
 		}
@@ -79,6 +79,8 @@ func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string)
 		if err != nil {
 			return nil, err
 		}
+
+		jsonBytes = content
 	} else {
 		jsonBytes = []byte(os.Getenv(serviceAccountFile))
 	}
