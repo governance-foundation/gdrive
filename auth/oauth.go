@@ -2,11 +2,12 @@ package auth
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+	"time"
+
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	"net/http"
-	"time"
-	"os"
 )
 
 type authCodeFn func(string) func() string
@@ -66,16 +67,16 @@ func NewAccessTokenClient(clientId, clientSecret, accessToken string) *http.Clie
 	)
 }
 
-func NewServiceAccountClient(serviceAccountFile, jsonLocationType string) (*http.Client, error) {
+func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string) (*http.Client, error) {
 	content := ""
 
-	if (jsonLocationType != "env") {
+	if jsonLocationType != "env" {
 		content, exists, err := ReadFile(serviceAccountFile)
-		if(!exists) {
+		if !exists {
 			return nil, fmt.Errorf("Service account filename %q not found", serviceAccountFile)
 		}
 
-		if(err != nil) {
+		if err != nil {
 			return nil, err
 		}
 	} else {
@@ -83,13 +84,11 @@ func NewServiceAccountClient(serviceAccountFile, jsonLocationType string) (*http
 	}
 
 	conf, err := google.JWTConfigFromJSON(content, "https://www.googleapis.com/auth/drive")
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 	return conf.Client(oauth2.NoContext), nil
 }
-
-
 
 func getConfig(clientId, clientSecret string) *oauth2.Config {
 	return &oauth2.Config{
