@@ -49,9 +49,9 @@ jobs:
             echo "-> Building project for: $target"
             GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -o $output
             #zip -j $output.zip $output > /dev/null
-            cd build
-            ls -al
           done
+          cd build
+          ls -al
       - name: Release
         if: env.RELEASE_TAG != ''
         uses: meeDamian/github-release@2.0
