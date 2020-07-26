@@ -35,6 +35,16 @@ go get github.com/governance-foundation/gdrive
 ```
 The gdrive binary should now be available at `$GOPATH/bin/gdrive`
 
+## Compile using Docker
+
+```bash
+docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.14 go build -v
+```
+
+```powershell
+docker run --rm -v ${PWD}:/usr/src/myapp -w /usr/src/myapp golang:1.14 go build -v
+```
+
 
 ## Gdrive 2
 Gdrive 2 is more or less a full rewrite and is not backwards compatible
