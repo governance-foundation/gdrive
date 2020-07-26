@@ -45,6 +45,11 @@ func main() {
 			Patterns:    []string{"--service-account"},
 			Description: "Oauth service account filename, used for server to server communication without user interaction (filename path is relative to config dir)",
 		},
+		cli.StringFlag{
+			Name:        "serviceAccountEVar",
+			Patterns:    []string{"--service-account-evar"},
+			Description: "Name of environment variable from which to read service account Json config",
+		},
 	}
 
 	handlers := []*cli.Handler{
