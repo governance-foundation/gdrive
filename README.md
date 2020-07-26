@@ -62,6 +62,9 @@ authentication, you need to use the `--service-account <serviceAccountCredential
 global option, where `serviceAccountCredentials` is a file in JSON format obtained
 through the Google API Console, and its location is relative to the config dir. 
 
+You can also use `--service-account-evar <Name>` to read JSON from environment variable.
+
+
 #### .gdriveignore
 Placing a .gdriveignore in the root of your sync directory can be used to
 skip certain files from being synced. .gdriveignore follows the same
@@ -110,6 +113,7 @@ global:
   --refresh-token <refreshToken>   Oauth refresh token used to get access token (for advanced users)
   --access-token <accessToken>     Oauth access token, only recommended for short-lived requests because of short lifetime (for advanced users)
   --service-account <accountFile>  Oauth service account filename, used for server to server communication without user interaction (file is relative to config dir)
+  --service-account-evar <Name>    Name of environment varible from which to read JSON config.
 
 options:
   -m, --max <maxFiles>       Max files to list, default: 30
