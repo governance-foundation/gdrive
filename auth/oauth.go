@@ -68,10 +68,10 @@ func NewAccessTokenClient(clientId, clientSecret, accessToken string) *http.Clie
 }
 
 func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string) (*http.Client, error) {
-	var content []byte
+	var jsonBytes []byte
 
 	if jsonLocationType != "env" {
-		content, exists, err := ReadFile(serviceAccountFile)
+		jsonBytes, exists, err = ReadFile(serviceAccountFile)
 		if !exists {
 			return nil, fmt.Errorf("Service account filename %q not found", serviceAccountFile)
 		}
@@ -80,10 +80,10 @@ func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string)
 			return nil, err
 		}
 	} else {
-		content := []byte(os.Getenv(serviceAccountFile))
+		jsonBytes = []byte(os.Getenv(serviceAccountFile))
 	}
 
-	conf, err := google.JWTConfigFromJSON(content, "https://www.googleapis.com/auth/drive")
+	conf, err := google.JWTConfigFromJSON(jsonBytes, "https://www.googleapis.com/auth/drive")
 	if err != nil {
 		return nil, err
 	}
