@@ -51,12 +51,10 @@ jobs:
             #zip -j $output.zip $output > /dev/null
           done
       - name: Release
-        if: env.TAG_NAME != ''
         uses: meeDamian/github-release@2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.RELEASE_TAG }}
-          name: ${{ env.RELEASE_TAG }}
           body: ${{ env.RELEASE_NOTES }}
           gzip: false
           files: build/
