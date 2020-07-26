@@ -18,7 +18,7 @@ jobs:
       BUILD_NAME: "gdrive"
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup go
         uses: actions/setup-go@v1
         with:
@@ -40,7 +40,7 @@ jobs:
             echo "-> Building project for: $target"
             GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -o $output
           done
-      - uses: meeDamian/github-release@1.0
+      - uses: meeDamian/github-release@2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.RELEASE_TAG }}
