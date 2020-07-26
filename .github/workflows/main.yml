@@ -32,6 +32,7 @@ jobs:
       - name: Build
         run: |
           targets=${BUILD_TARGETS}
+          go get -v -u github.com/${GITHUB_REPOSITORY}
           for target in $targets; do
             os="$(echo $target | cut -d '/' -f1)"
             arch="$(echo $target | cut -d '/' -f2)"
