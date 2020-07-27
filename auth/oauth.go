@@ -81,8 +81,10 @@ func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string)
 		}
 
 		jsonBytes = content
-	} else {
+	} else if jsonLocationType != "env" {
 		jsonBytes = []byte(os.Getenv(serviceAccountFile))
+	} else {
+		jsonBytes = []byte(serviceAccountFile)
 	}
 
 	conf, err := google.JWTConfigFromJSON(jsonBytes, "https://www.googleapis.com/auth/drive")

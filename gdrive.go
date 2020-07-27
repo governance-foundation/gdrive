@@ -50,6 +50,11 @@ func main() {
 			Patterns:    []string{"--service-account-evar"},
 			Description: "Name of environment variable from which to read service account Json config",
 		},
+		cli.StringFlag{
+			Name:        "serviceAccountJson",
+			Patterns:    []string{"--service-account-json"},
+			Description: "Service account Json config",
+		},
 	}
 
 	handlers := []*cli.Handler{

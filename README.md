@@ -74,6 +74,7 @@ global option, where `serviceAccountCredentials` is a file in JSON format obtain
 through the Google API Console, and its location is relative to the config dir. 
 
 You can also use `--service-account-evar <Name>` to read JSON from environment variable.
+You can also use `--service-account-json <JSON>` to pass JSON directly.
 
 
 #### .gdriveignore
