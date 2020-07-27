@@ -70,7 +70,7 @@ func NewAccessTokenClient(clientId, clientSecret, accessToken string) *http.Clie
 func NewServiceAccountClient(serviceAccountFile string, jsonLocationType string) (*http.Client, error) {
 	var jsonBytes []byte
 
-	if jsonLocationType != "env" {
+	if jsonLocationType != "file" {
 		content, exists, err := ReadFile(serviceAccountFile)
 		if !exists {
 			return nil, fmt.Errorf("Service account filename %q not found", serviceAccountFile)
